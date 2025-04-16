@@ -3,11 +3,11 @@
 #include <iomanip>
 #include "calculator.hpp"
 
-double addDouble(double result){
+double addDouble(double result){        //Function to add -123.456 to the result of the parse_number function
     return result + (-123.456);
 }
 
-void readFile(std::string filename){
+void readFile(std::string filename){        //Function to read the file and parse the numbers
     std::ifstream file(filename);
     if (!file) {
         std::cout << "Error opening file." << std::endl;
