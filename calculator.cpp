@@ -8,6 +8,8 @@ double parse_number(const std::string &expression){
     int i = 0;     //variable to count through digits of the string
     bool isNegative = false; //variable to check if the number is negative
     double result = 0.0; //variable to store the result of the number
+    double fraction = 0.0; //variable to store the fraction of the number
+    double divisor = 10.0; //variable to divide the fraction by 10
     bool has_digits = false; //variable to check if the number has digits
     bool has_decimal = false; //variable to check if the number has a decimal point
 
@@ -19,30 +21,32 @@ double parse_number(const std::string &expression){
         }
     }
 
-    while(i < expression.length() && isdigit(expression[i])){
-        result = result * 10 + (expression[i] - '0'); //convert the character to a digit and add it to the result
-        has_digits = true; //set has_digits to true
-        i++; //increment the index to check the next character
-    }
-
-    if(i < expression.length() && expression[i] == '.'){
-        has_decimal = true; //set has_decimal to true
-        i++; //increment the index to check the next character
-    
-        double fraction = 0.0; //variable to store the fraction part of the number
-        double divisor = 10.0; //variable to store the divisor for the fraction part
-        while(i < expression.length() && isdigit(expression[i])){
-            fraction += (expression[i] - '0') / divisor; //convert the character to a digit and add it to the fraction
-            divisor *= 10.0; //increment the divisor for the next digit
-            i++; //increment the index to check the next character
+    while(i < expression.length()){
+        if(isdigit(expression[i])){
+            has_digits = true; //set has_digits to true
+            if(!has_decimal){
+                result = result * 10.0 + (expression[i] - '0'); //if the number does not have a decimal point, multiply the result by 10
+            }else{
+                fraction += (expression[i] - '0') / divisor; //if the number has a decimal point, add the digit to the fraction
+                divisor *= 10.0; //increment the divisor by 10
+            }
+        } else if(expression[i] == '.' && !has_decimal) {
+            has_decimal = true; //set has_decimal to true
+            if(i + 1 == expression.length()){
+                return 0.0; //if the decimal point is the last character, return 0.0
+            }
+        } else {
+            return 0.0; //if the character is not a digit or a decimal point, return 0.0
         }
-
-        result += fraction; //add the fraction to the result
+        i++; //increment the index to check the next character
     }
 
-    if (i != expression.length()) {
-        return 0.0; //if there are any invalid characters, return 0.0
+    if (!has_digits) {
+        return 0.0; //if the number does not have digits, return 0.0
     }
+    
+    result += fraction; //add the fraction to the result
+    
     if(isNegative){
         result = -result; //if the number is negative, make the result negative
     }

@@ -12,8 +12,9 @@ void readFile(std::string filename){
     std::string line;
     while (std::getline(file, line)) {
         double result = parse_number(line); // Call the parse_number function to parse the number
-        if (result == 0.0) {
-            std::cout << "Invalid number" << std::endl;
+        bool is_invalid = (result == 0.0 && line != "0" && line != "0.0" && line != "+0" && line != "-0" && line != "+0.0" && line != "-0.0");
+        if (is_invalid) {
+            std::cout << "Invalid number: " << line << std::endl;
         } else {
             std::cout << "Valid number: " << result << std::endl;
         }
