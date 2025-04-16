@@ -50,5 +50,9 @@ double parse_number(const std::string &expression){
     if(isNegative){
         result = -result; //if the number is negative, make the result negative
     }
+
+    if(result == int(result)){
+        return result+0.0; //if the result is an integer, return the result as a double
+    }
     return result; //return the result
 }

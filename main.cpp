@@ -1,6 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 #include "calculator.hpp"
+
+double addDouble(double result){
+    return result + (-123.456);
+}
 
 void readFile(std::string filename){
     std::ifstream file(filename);
@@ -14,9 +19,10 @@ void readFile(std::string filename){
         double result = parse_number(line); // Call the parse_number function to parse the number
         bool is_invalid = (result == 0.0 && line != "0" && line != "0.0" && line != "+0" && line != "-0" && line != "+0.0" && line != "-0.0");
         if (is_invalid) {
-            std::cout << "Invalid number: " << line << std::endl;
+            std::cout << "Invalid number: " << line << "\n" << std::endl;
         } else {
             std::cout << "Valid number: " << result << std::endl;
+            std::cout << "Result of adding -123.456: " << addDouble(result) << "\n" << std::endl; // Call the addDouble function to add -123.456
         }
     }
 
